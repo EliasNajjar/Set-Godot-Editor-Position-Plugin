@@ -14,3 +14,4 @@ You can type in coordinates for the x, y, and z coordinates and press go to move
 ## Why are 2 transports necessary
 
 You can move in the Godot editor by right-clicking and using WASD, or by rotating around a pivot using middle click or the tool in the top right of the viewport. 
+Not finished...
