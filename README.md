@@ -1,17 +1,9 @@
 # Set Editor Position
 Plugin for Godot 4.4
-
 Adds UI to the 3D toolbar allowing you to input an x, y, and z coordinate and teleport to it in the editor
-
 ## Adding to you Godot project
-
-Make a folder with set_editor_position.gd and plugin.cfg. Go to the file location of your Godot project and create an folder called "addons" if you do not already. Place the plugin folder in the addons folder. Go to your project in Godot and enable the plugin by selecting Project->Project Settings...->Plugins, and enabling Set_Editor_Position. Now you will see the UI in the toolbar, three input boxes labeled X=0, Y=0, and Z=0 and a button labeled Go.
-
+Make a folder with set_editor_position.gd and plugin.cfg. Go to the file location of your Godot project and create a folder called "addons" if it is not there already. Place the plugin folder in the addons folder. Go to your project in Godot and enable the plugin by selecting Project->Project Settings...->Plugins, and enabling Set Editor Position. Now you will see the UI in the toolbar, three input boxes labeled x=0, y=0, and z=0 and a button labeled Go.
 ## Usage
-
-You can type in coordinates for the x, y, and z coordinates and press go to move to that location. Coordinates default to 0 with no input. After pressing Go, you will undergo one transport, then soon after you will undergo another transport that will take you to the location you want to go. The description for why 2 transports was necessary is explained below. This plugin is extremely useful for creating large scenes where trying to move to another part takes a long time.
-
-## Why are 2 transports necessary
-
-You can move in the Godot editor by right-clicking and using WASD, or by rotating around a pivot using middle click or the tool in the top right of the viewport. 
-Not finished...
+You can type in coordinates for x, y, and z and press go to move to that location. Coordinates default to 0 with no input. After pressing Go, you will transport close to the point you entered. This plugin actually moves the pivot of the camera to the point input, so the camera can be rotated around that point or zoomed in very close to it. More details below.
+## Why not teleport to the exact point?
+In Godot, you can rotate the editor camera around a pivot by holding middle click or using the tool in the top-right of the viewport. Setting the position of the camera moves the camera to that point for a split second, then actually sets this pivot to the point and the camera gets placed nearby facing the pivot. In order to set the camera to the point input, you would have to move the camera to the location of the point using the input and align it to the point using the zoom or distance from the point. Unfortunately, there is no method of finding the zoom nor the pivot in script, so you have to move it to the point first. When you access the camera's global_position, it gives the position of the camera, not the pivot. Therefore, you cannot move the camera to the pivot then to the input point. You can move the pivot to the input point, then wait for it to set the pivot instead, then add twice the vector from the camera to the input point, which will place the pivot on the opposite side of the input point as the camera was before, and the camera ends up on the exact point input because the zoom and rotation is not changed. However, this solution requires 2 different transports with what I found to be a minimum time of .5 seconds in between for the pivot to be set, making it very user unfriendly and unprofessional. The solution of just moving the pivot to the point looks nice and gets the camera close enough to move around the area wanted and reach areas much faster than it would be otherwise.
